@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HospitalApi.Application.Interfaces.Repositories;
+using HospitalApi.Persistence.Repositories;
 
 namespace HospitalApi.Persistence
 {
@@ -15,6 +17,9 @@ namespace HospitalApi.Persistence
         public static void AddPersistence(this IServiceCollection services, IConfiguration configuration )
         {
             services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
+            services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
         }
     }
 }

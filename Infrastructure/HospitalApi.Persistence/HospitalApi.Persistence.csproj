@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Core\HospitalApi.Application\HospitalApi.Application.csproj" />
     <ProjectReference Include="..\..\Core\HospitalApi.Domain\HospitalApi.Domain.csproj" />
   </ItemGroup>
 

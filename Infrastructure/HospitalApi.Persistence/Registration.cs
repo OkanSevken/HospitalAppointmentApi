@@ -9,6 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using HospitalApi.Application.Interfaces.Repositories;
 using HospitalApi.Persistence.Repositories;
+using HospitalApi.Application.Interfaces.UnitOfWorks;
+using HospitalApi.Persistence.UnitOfWorks;
 
 namespace HospitalApi.Persistence
 {
@@ -20,6 +22,8 @@ namespace HospitalApi.Persistence
 
             services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
             services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
+
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
 }

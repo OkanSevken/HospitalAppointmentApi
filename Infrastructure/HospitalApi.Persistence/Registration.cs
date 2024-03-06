@@ -20,6 +20,8 @@ namespace HospitalApi.Persistence
         {
             services.AddDbContext<AppDbContext>(opt => opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);   //Datetime veri tipini swaggerda create'lemek için gerekli kod
+
             services.AddScoped(typeof(IReadRepository<>), typeof(ReadRepository<>));
             services.AddScoped(typeof(IWriteRepository<>), typeof(WriteRepository<>));
 

@@ -1,4 +1,5 @@
-﻿using HospitalApi.Application.Interfaces.UnitOfWorks;
+﻿using HospitalApi.Application.Interfaces.AutoMapper;
+using HospitalApi.Application.Interfaces.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using MediatR;
 using System;
@@ -12,9 +13,12 @@ namespace HospitalApi.Application.Features.Appointments.Queries.GetAllAppointmen
     public class GetAllAppointmentsQueryHandler : IRequestHandler<GetAllAppointmentsQueryRequest, IList<GetAllAppointmentsQueryResponse>>
     {
         private readonly IUnitOfWork unitOfWork;
-        public GetAllAppointmentsQueryHandler(IUnitOfWork unitOfWork)
+        private readonly IMapper mapper;
+
+        public GetAllAppointmentsQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
         {
             this.unitOfWork = unitOfWork;
+            this.mapper = mapper;
         }
 
         public async Task<IList<GetAllAppointmentsQueryResponse>> Handle(GetAllAppointmentsQueryRequest request, CancellationToken cancellationToken)
@@ -23,21 +27,26 @@ namespace HospitalApi.Application.Features.Appointments.Queries.GetAllAppointmen
                                                                                                  //değişkenine bir liste olarak dönüyorum.
 
 
-            List<GetAllAppointmentsQueryResponse> response = new();     // Bu listeyi new'leyip foreach içinde dönen response'u bu listeye ekliyorum.
+            var map=mapper.Map<GetAllAppointmentsQueryResponse, Appointment>(appointments);    //Mapper classındaki map parametreleri;TDestination => GetAllAppointmentsQueryResponse
+            return map;                                                                        //                                     TSource => Appointment oldu.  
 
-            foreach (var appointment in appointments)
-            {
-                response.Add( new GetAllAppointmentsQueryResponse
-                {
-                    AppointmentDate = appointment.AppointmentDate,            
-                    AppointmentTime = appointment.AppointmentTime,          //Veri tabanından gelen randevu kayıtlarını new'lediğim Response'a ekliyorum.
-                    PatientId = appointment.PatientId,
-                    DoctorId = appointment.DoctorId,
-                    Description = appointment.Description,
-                    IsApproved = appointment.IsApproved,
-                });
-            }
-            return response;    
+
+
+            //List<GetAllAppointmentsQueryResponse> response = new();     // Bu listeyi new'leyip foreach içinde dönen response'u bu listeye ekliyorum.
+
+            //foreach (var appointment in appointments)
+            //{
+            //    response.Add( new GetAllAppointmentsQueryResponse
+            //    {
+            //        AppointmentDate = appointment.AppointmentDate,            
+            //        AppointmentTime = appointment.AppointmentTime,          //Veri tabanından gelen randevu kayıtlarını new'lediğim Response'a ekliyorum.
+            //        PatientId = appointment.PatientId,
+            //        DoctorId = appointment.DoctorId,
+            //        Description = appointment.Description,
+            //        IsApproved = appointment.IsApproved,
+            //    });
+            //}
+            //return response;    
         }
     }
 }

@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\HospitalApi.Mapper\HospitalApi.Mapper.csproj" />
     <ProjectReference Include="..\..\Infrastructure\HospitalApi.Persistence\HospitalApi.Persistence.csproj" />
   </ItemGroup>
 

@@ -14,14 +14,21 @@ namespace HospitalApi.Domain.Entities
             
         }
 
-        public Appointment(int patientId, DateTime appointmentDate, TimeSpan appointmentTime, int doctorId , string description, bool isApproved)
+        //public Appointment(DateTime appointmentDate, int doctorId, string description,int patientId)
+        //{
+        //    AppointmentDate = appointmentDate;
+        //    //AppointmentTime = appointmentTime;                                    //Create Handle sınıfında isApproved'ı almamak için bu ctor'u oluşturdum.
+        //    DoctorId = doctorId;
+        //    Description = description;
+        //    PatientId = patientId;
+        //}
+
+        public Appointment(int patientId, DateTime appointmentDate ,int doctorId , string description)
         {
             PatientId = patientId;
             AppointmentDate = appointmentDate;
-            AppointmentTime = appointmentTime;
             DoctorId = doctorId;
-            Description = description;
-            IsApproved = isApproved;
+            Description = description;      
         }
 
         public DateTime AppointmentDate { get; set; }

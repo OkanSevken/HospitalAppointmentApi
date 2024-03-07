@@ -1,4 +1,6 @@
 ﻿using HospitalApi.Application.Features.Appointments.Command.CreateAppointment;
+using HospitalApi.Application.Features.Appointments.Command.DeleteAppointment;
+using HospitalApi.Application.Features.Appointments.Command.UpdateAppointment;
 using HospitalApi.Application.Features.Appointments.Queries.GetAllAppointments;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +27,20 @@ namespace HospitalApi.Api.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CreateAppointments(CreateAppointmentCommandRequest request)
+        {
+            await mediator.Send(request);
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAppointments(UpdateAppointmentCommandRequest request)
+        {
+            await mediator.Send(request);
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> DeleteAppointments(DeleteAppointmentCommandRequest request)
         {
             await mediator.Send(request);
             return Ok();

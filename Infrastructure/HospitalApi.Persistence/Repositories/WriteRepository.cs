@@ -49,6 +49,6 @@ namespace HospitalApi.Persistence.Repositories
             await Task.Run(() => Table.RemoveRange(entity));
         }
 
-
+       
     }
 }

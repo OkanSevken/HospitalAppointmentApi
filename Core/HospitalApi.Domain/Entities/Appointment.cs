@@ -23,16 +23,17 @@ namespace HospitalApi.Domain.Entities
         //    PatientId = patientId;
         //}
 
-        public Appointment(int patientId, DateTime appointmentDate ,int doctorId , string description)
+        public Appointment(int patientId, DateTime appointmentDate ,int doctorId , string description,string appointmentTime)
         {
             PatientId = patientId;
             AppointmentDate = appointmentDate;
             DoctorId = doctorId;
-            Description = description;      
+            Description = description;
+            AppointmentTime = appointmentTime;
         }
 
         public DateTime AppointmentDate { get; set; }
-        public TimeSpan AppointmentTime { get; set; }
+        public string AppointmentTime { get; set; }
         public int PatientId { get; set; }
         public int DoctorId { get; set; }
         public string Description { get; set; }

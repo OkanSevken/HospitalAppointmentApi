@@ -42,7 +42,7 @@ namespace HospitalApi.Mapper.AutoMapper
             return MapperContainer.Map<IList<TDestination>>(source);
         }
 
-        protected void Config<TDestination, TSource>(int depth=5, string? ignore = null)
+        protected void Config<TDestination, TSource>(int depth=5, string? ignore = null)  // Depth=5 => 5 dto'ya kadar map'leme işlemini yapabilir demek.
         {
             var typePair=new TypePair(typeof(TSource), typeof(TDestination));
 

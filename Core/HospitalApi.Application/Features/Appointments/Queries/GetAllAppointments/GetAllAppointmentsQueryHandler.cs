@@ -28,7 +28,8 @@ namespace HospitalApi.Application.Features.Appointments.Queries.GetAllAppointmen
 
 
             var map=mapper.Map<GetAllAppointmentsQueryResponse, Appointment>(appointments);    //Mapper classındaki map parametreleri;TDestination => GetAllAppointmentsQueryResponse
-            return map;                                                                        //                                     TSource => Appointment oldu.  
+            return map;                                                                        // Ve GetAllAppointmentsQueryResponse'u döndüm .                                                                                 //                                     TSource => Appointment oldu.
+
 
 
 

@@ -1,6 +1,7 @@
 using HospitalApi.Persistence;
 using HospitalApi.Application;
 using HospitalApi.Mapper;
+using HospitalApi.Application.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.ConfigureExceptionHandlingMiddleware();
 
 app.UseAuthorization();
 

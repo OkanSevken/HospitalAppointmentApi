@@ -10,7 +10,7 @@ namespace HospitalApi.Domain.Cammon
     {
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public int CreaterUserId { get; set; }
+        public int CreaterUserId { get; set; } 
         public DateTime? LastModifyDate { get; set; }
         public int? LastUserId { get; set; }
         public bool IsActive { get; set; } =true;

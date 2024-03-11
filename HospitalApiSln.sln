@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalApi.Persistence", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalApi.Api", "Presentation\HospitalApi.Api\HospitalApi.Api.csproj", "{5FE7165F-7D5D-4B38-A15D-7B9B077DBB7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HospitalApi.Mapper", "HospitalApi.Mapper\HospitalApi.Mapper.csproj", "{478EF1F9-0376-4EA4-B180-6713D8458BA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HospitalApi.Mapper", "HospitalApi.Mapper\HospitalApi.Mapper.csproj", "{478EF1F9-0376-4EA4-B180-6713D8458BA7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

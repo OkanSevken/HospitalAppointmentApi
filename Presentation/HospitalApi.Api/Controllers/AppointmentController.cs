@@ -3,6 +3,7 @@ using HospitalApi.Application.Features.Appointments.Command.DeleteAppointment;
 using HospitalApi.Application.Features.Appointments.Command.UpdateAppointment;
 using HospitalApi.Application.Features.Appointments.Queries.GetAllAppointments;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,6 +20,7 @@ namespace HospitalApi.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles ="doctor,secretary")]
         public async Task<IActionResult> GetAllAppointments()
         {
             var response = await mediator.Send(new GetAllAppointmentsQueryRequest());
@@ -33,6 +35,7 @@ namespace HospitalApi.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "secretary,patient")]
         public async Task<IActionResult> UpdateAppointments(UpdateAppointmentCommandRequest request)
         {
             await mediator.Send(request);
@@ -40,6 +43,7 @@ namespace HospitalApi.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "secretary")]
         public async Task<IActionResult> DeleteAppointments(DeleteAppointmentCommandRequest request)
         {
             await mediator.Send(request);

@@ -2,6 +2,7 @@
 using HospitalApi.Application.Interfaces.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,11 +14,13 @@ namespace HospitalApi.Application.Features.Appointments.Command.UpdateAppointmen
     public class UpdateAppointmentCommandHandler : IRequestHandler<UpdateAppointmentCommandRequest, Unit>
     {
         private readonly IUnitOfWork unitOfWork;
+        private readonly IHttpContextAccessor httpContextAccessor;
         private readonly IMapper mapper;
 
-        public UpdateAppointmentCommandHandler(IUnitOfWork unitOfWork, IMapper mapper )
+        public UpdateAppointmentCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
         {
             this.unitOfWork = unitOfWork;
+            this.httpContextAccessor = httpContextAccessor;
             this.mapper = mapper;
         }
         public async Task<Unit> Handle(UpdateAppointmentCommandRequest request, CancellationToken cancellationToken)

@@ -1,6 +1,8 @@
-﻿using HospitalApi.Application.Interfaces.UnitOfWorks;
+﻿using HospitalApi.Application.Interfaces.AutoMapper;
+using HospitalApi.Application.Interfaces.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,11 +13,15 @@ namespace HospitalApi.Application.Features.Appointments.Command.DeleteAppointmen
 {
     public class DeleteAppointmentCommandHandler : IRequestHandler<DeleteAppointmentCommandRequest, Unit>
     {
+        private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
+        private readonly IHttpContextAccessor httpContextAccessor;
 
-        public DeleteAppointmentCommandHandler(IUnitOfWork unitOfWork)
+        public DeleteAppointmentCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) 
         {
+            this.mapper = mapper;
             this.unitOfWork = unitOfWork;
+            this.httpContextAccessor = httpContextAccessor;
         }
         public async Task<Unit> Handle(DeleteAppointmentCommandRequest request, CancellationToken cancellationToken)
         {
@@ -24,6 +30,8 @@ namespace HospitalApi.Application.Features.Appointments.Command.DeleteAppointmen
             appointment.IsDeleted = true;
 
             appointment.LastModifyDate = DateTime.Now;
+
+            appointment.LastUserId  = request.UserId;
 
             await unitOfWork.GetWriteRepository<Appointment>().UpdateAsync(appointment);
             await unitOfWork.SaveAsync();

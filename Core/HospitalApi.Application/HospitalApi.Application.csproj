@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Bases\**" />
+    <EmbeddedResource Remove="Bases\**" />
+    <None Remove="Bases\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.9.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <PackageReference Include="MediatR" Version="12.2.0" />
@@ -18,6 +24,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\HospitalApi.Domain\HospitalApi.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Features\DoctorChecks\Command\DeleteDoctorCheck\" />
+    <Folder Include="Features\DoctorChecks\Command\UpdateDoctorCheck\" />
   </ItemGroup>
 
 </Project>

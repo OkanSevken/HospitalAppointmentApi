@@ -4,6 +4,7 @@ using HospitalApi.Application.Interfaces.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +15,14 @@ namespace HospitalApi.Application.Features.DoctorChecks.Command.CreateDoctorChec
 {
     public class CreateDoctorCheckCommandHandler : IRequestHandler<CreateDoctorCheckCommandRequest, Unit>
     {
-
+        private readonly UserManager<User> userManager;
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public CreateDoctorCheckCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
+        public CreateDoctorCheckCommandHandler(UserManager<User> userManager,IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor)
         {
+            this.userManager = userManager;
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.httpContextAccessor = httpContextAccessor;
@@ -32,7 +34,9 @@ namespace HospitalApi.Application.Features.DoctorChecks.Command.CreateDoctorChec
 
             await unitOfWork.GetWriteRepository<DoctorCheck>().AddAsync(doctorCheck);
 
-            //doctorCheck.CreaterUserId= request.UserId 
+            var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User);  // Login yapan kullanıcının bilgilerini çektim
+
+            doctorCheck.CreaterUserId = user.Id;
 
             await unitOfWork.SaveAsync();
 

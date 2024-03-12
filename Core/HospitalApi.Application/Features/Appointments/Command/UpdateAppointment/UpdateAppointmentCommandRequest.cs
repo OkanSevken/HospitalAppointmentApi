@@ -15,6 +15,6 @@ namespace HospitalApi.Application.Features.Appointments.Command.UpdateAppointmen
         public int DoctorId { get; set; }
         public int PatientId { get; set; }
         public string Description { get; set; }
-        
+
     }
 }

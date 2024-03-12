@@ -26,9 +26,4 @@
     <ProjectReference Include="..\HospitalApi.Domain\HospitalApi.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\DoctorChecks\Command\DeleteDoctorCheck\" />
-    <Folder Include="Features\DoctorChecks\Command\UpdateDoctorCheck\" />
-  </ItemGroup>
-
 </Project>

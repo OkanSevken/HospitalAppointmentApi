@@ -1,4 +1,6 @@
 ﻿using HospitalApi.Application.Features.DoctorChecks.Command.CreateDoctorCheckCommand;
+using HospitalApi.Application.Features.DoctorChecks.Command.DeleteDoctorCheck;
+using HospitalApi.Application.Features.DoctorChecks.Command.UpdateDoctorCheck;
 using HospitalApi.Application.Features.DoctorChecks.Queries.GetAllDoctorChecks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +11,7 @@ namespace HospitalApi.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
+    [Authorize(Roles = "doctor,secretary")]
     public class DoctorCheckController : ControllerBase
     {
         private readonly IMediator mediator;
@@ -26,6 +29,20 @@ namespace HospitalApi.Api.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CreateDoctorCheck(CreateDoctorCheckCommandRequest request)
+        {
+            await mediator.Send(request);
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateDoctorCheck(UpdateDoctorCheckCommandRequest request)
+        {
+            await mediator.Send(request);
+            return Ok();
+        }
+
+        [HttpPost]     
+        public async Task<IActionResult> DeleteDoctorCheck(DeleteDoctorCheckCommandRequest request)
         {
             await mediator.Send(request);
             return Ok();

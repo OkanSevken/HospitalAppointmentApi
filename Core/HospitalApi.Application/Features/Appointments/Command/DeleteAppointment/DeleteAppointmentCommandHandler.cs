@@ -3,6 +3,7 @@ using HospitalApi.Application.Interfaces.UnitOfWorks;
 using HospitalApi.Domain.Entities;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,12 +14,14 @@ namespace HospitalApi.Application.Features.Appointments.Command.DeleteAppointmen
 {
     public class DeleteAppointmentCommandHandler : IRequestHandler<DeleteAppointmentCommandRequest, Unit>
     {
+        private readonly UserManager<User> userManager;
         private readonly IMapper mapper;
         private readonly IUnitOfWork unitOfWork;
         private readonly IHttpContextAccessor httpContextAccessor;
 
-        public DeleteAppointmentCommandHandler(IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) 
+        public DeleteAppointmentCommandHandler(UserManager<User> userManager,IMapper mapper, IUnitOfWork unitOfWork, IHttpContextAccessor httpContextAccessor) 
         {
+            this.userManager = userManager;
             this.mapper = mapper;
             this.unitOfWork = unitOfWork;
             this.httpContextAccessor = httpContextAccessor;
@@ -31,7 +34,9 @@ namespace HospitalApi.Application.Features.Appointments.Command.DeleteAppointmen
 
             appointment.LastModifyDate = DateTime.Now;
 
-            appointment.LastUserId  = request.UserId;
+            var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User);
+
+            appointment.LastUserId = user.Id; 
 
             await unitOfWork.GetWriteRepository<Appointment>().UpdateAsync(appointment);
             await unitOfWork.SaveAsync();

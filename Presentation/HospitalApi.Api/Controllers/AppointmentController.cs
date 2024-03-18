@@ -20,7 +20,7 @@ namespace HospitalApi.Api.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles ="doctor,secretary")]
+        //[Authorize(Roles ="doctor,secretary")]
         public async Task<IActionResult> GetAllAppointments()
         {
             var response = await mediator.Send(new GetAllAppointmentsQueryRequest());

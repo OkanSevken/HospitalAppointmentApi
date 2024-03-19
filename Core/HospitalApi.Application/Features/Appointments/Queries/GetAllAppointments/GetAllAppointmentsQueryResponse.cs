@@ -8,6 +8,7 @@ namespace HospitalApi.Application.Features.Appointments.Queries.GetAllAppointmen
 {
     public class GetAllAppointmentsQueryResponse
     {
+        public int Id { get; set; }
         public DateTime AppointmentDate { get; set; }
         public string AppointmentTime { get; set; }
         public int PatientId { get; set; }

@@ -70,6 +70,6 @@ namespace HospitalApi.Persistence.Repositories
             return Table.Where(predicate);
         }
 
-
+      
     }
 }

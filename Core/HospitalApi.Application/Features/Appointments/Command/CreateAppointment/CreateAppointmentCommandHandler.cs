@@ -36,7 +36,7 @@ namespace HospitalApi.Application.Features.Appointments.Command.CreateAppointmen
 
             var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User);  // Login yapan kullanıcının bilgilerini çektim
 
-            appointment.CreaterUserId = user.Id;
+            appointment.CreaterUserId = 15;
 
             await unitOfWork.SaveAsync();
 

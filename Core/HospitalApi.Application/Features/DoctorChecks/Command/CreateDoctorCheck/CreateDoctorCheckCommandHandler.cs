@@ -36,8 +36,9 @@ namespace HospitalApi.Application.Features.DoctorChecks.Command.CreateDoctorChec
 
             var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User);  // Login yapan kullanıcının bilgilerini çektim
 
-            doctorCheck.CreaterUserId = user.Id;
+            //doctorCheck.CreaterUserId = user.Id;
 
+            doctorCheck.CreaterUserId = 2;
             await unitOfWork.SaveAsync();
 
             return Unit.Value;

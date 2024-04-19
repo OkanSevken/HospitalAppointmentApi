@@ -36,8 +36,8 @@ namespace HospitalApi.Application.Features.Appointments.Command.DeleteAppointmen
 
             var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User);
 
-            appointment.LastUserId = user.Id; 
-
+            //appointment.LastUserId = user.Id; 
+            appointment.LastUserId =1;
             await unitOfWork.GetWriteRepository<Appointment>().UpdateAsync(appointment);
             await unitOfWork.SaveAsync();
 

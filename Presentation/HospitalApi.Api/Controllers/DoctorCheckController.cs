@@ -11,7 +11,7 @@ namespace HospitalApi.Api.Controllers
 {
     [Route("api/[controller]/[action]")]
     [ApiController]
-    [Authorize(Roles = "doctor,secretary")]
+    //[Authorize(Roles = "doctor,secretary")]
     public class DoctorCheckController : ControllerBase
     {
         private readonly IMediator mediator;

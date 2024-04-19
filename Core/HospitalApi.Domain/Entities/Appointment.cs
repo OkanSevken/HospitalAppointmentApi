@@ -37,7 +37,7 @@ namespace HospitalApi.Domain.Entities
         public int PatientId { get; set; }
         public int DoctorId { get; set; }
         public string Description { get; set; }
-        public bool IsApproved { get; set; }
+        public bool IsApproved { get; set; } = true;
         public ICollection<DoctorCheck> DoctorChecks { get; set; }
     }
 }

@@ -42,7 +42,7 @@ namespace HospitalApi.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "secretary,patient")]
+       
         public async Task<IActionResult> UpdateAppointments(UpdateAppointmentCommandRequest request)
         {
             await mediator.Send(request);
@@ -50,7 +50,7 @@ namespace HospitalApi.Api.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "doctor,secretary")]
+        //[Authorize(Roles = "doctor,secretary")]
         public async Task<IActionResult> DeleteAppointments(DeleteAppointmentCommandRequest request)
         {
             await mediator.Send(request);

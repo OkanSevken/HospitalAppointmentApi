@@ -40,8 +40,8 @@ namespace HospitalApi.Application.Features.Appointments.Command.UpdateAppointmen
 
 
             var user = await userManager.GetUserAsync(httpContextAccessor.HttpContext.User); // Login yapan kullanıcının bilgilerini çektim
-            map.LastUserId = user.Id;                                                        // Çektiğim id'yi son kullanıcıya atadım
-
+           // map.LastUserId = user.Id;                                                        // Çektiğim id'yi son kullanıcıya atadım
+           map.LastUserId = 2;  
             //appointment.Description=request.Description;
             //appointment.AppointmentTime=request.AppointmentTime;
             //appointment.AppointmentDate = request.AppointmentDate;

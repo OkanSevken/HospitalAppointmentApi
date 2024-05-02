@@ -37,32 +37,44 @@ namespace HospitalApi.Application.Features.Auth.Command.Login
         }
         public async Task<LoginCommandResponse> Handle(LoginCommandRequest request, CancellationToken cancellationToken)
         {
-            User user=await userManager.FindByEmailAsync(request.Email);
-            bool checkPassword=await userManager.CheckPasswordAsync(user, request.Password);
-
-            IList<string> roles=await userManager.GetRolesAsync(user);
-
-            JwtSecurityToken token = await tokenService.CreateToken(user, roles);
-            string refreshToken = tokenService.GenerateRefreshToken();
-
-            _ = int.TryParse(configuration["JWT:RefreshTokenValidityInDays"], out int refreshTokenValidityInDays);
-
-            user.RefreshToken = refreshToken;
-            user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenValidityInDays);
-
-            await userManager.UpdateAsync(user);
-            await userManager.UpdateSecurityStampAsync(user);
-
-            string _token = new JwtSecurityTokenHandler().WriteToken(token);
-
-            await userManager.SetAuthenticationTokenAsync(user, "Default", "AccessToken", _token);
-
-            return new()
+            // Kullanıcıyı e-posta adresine göre bul
+            User user = await userManager.FindByEmailAsync(request.Email);
+            if (user != null)
             {
-                Token = _token,
-                RefreshToken = refreshToken,
-                Expiration = token.ValidTo
-            };
+                // Şifre doğruluğunu kontrol et
+                bool isPasswordCorrect = await userManager.CheckPasswordAsync(user, request.Password);
+                if (isPasswordCorrect)
+                {
+                    // JWT oluştur
+                    IList<string> roles = await userManager.GetRolesAsync(user);
+                    JwtSecurityToken token = await tokenService.CreateToken(user, roles);
+                    string refreshToken = tokenService.GenerateRefreshToken();
+
+                    // Yenileme token'ının geçerlilik süresini ayarla
+                    _ = int.TryParse(configuration["JWT:RefreshTokenValidityInDays"], out int refreshTokenValidityInDays);
+                    user.RefreshToken = refreshToken;
+                    user.RefreshTokenExpiryTime = DateTime.Now.AddDays(refreshTokenValidityInDays);
+
+                    // Kullanıcı bilgilerini güncelle
+                    await userManager.UpdateAsync(user);
+                    await userManager.UpdateSecurityStampAsync(user);
+
+                    // JWT'yi kullanıcıya gönder
+                    string _token = new JwtSecurityTokenHandler().WriteToken(token);
+                    await userManager.SetAuthenticationTokenAsync(user, "Default", "AccessToken", _token);
+
+                    // Yanıtı oluştur
+                    return new LoginCommandResponse
+                    {
+                        Token = _token,
+                        RefreshToken = refreshToken,
+                        Expiration = token.ValidTo
+                    };
+                }
+            }
+
+            // Kullanıcı adı veya şifre yanlış, hata döndür
+            throw new UnauthorizedAccessException("Kullanıcı adı veya şifre yanlış.");
         }
     }
 }

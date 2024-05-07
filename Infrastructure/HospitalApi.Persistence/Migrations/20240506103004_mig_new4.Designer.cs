@@ -3,6 +3,7 @@ using System;
 using HospitalApi.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace HospitalApi.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240506103004_mig_new4")]
+    partial class mig_new4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,21 +24,6 @@ namespace HospitalApi.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
-
-            modelBuilder.Entity("AppointmentUser", b =>
-                {
-                    b.Property<int>("AppointmentsId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UsersId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("AppointmentsId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("AppointmentUser");
-                });
 
             modelBuilder.Entity("HospitalApi.Domain.Entities.Appointment", b =>
                 {
@@ -63,8 +51,9 @@ namespace HospitalApi.Persistence.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int>("DoctorId")
-                        .HasColumnType("integer");
+                    b.Property<string>("DoctorId")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<bool>("IsActive")
                         .HasColumnType("boolean");
@@ -81,10 +70,16 @@ namespace HospitalApi.Persistence.Migrations
                     b.Property<int?>("LastUserId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("PatientId")
+                    b.Property<string>("PatientId")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Appointments");
                 });
@@ -174,6 +169,9 @@ namespace HospitalApi.Persistence.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
+                    b.Property<int>("DoctorId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -227,10 +225,6 @@ namespace HospitalApi.Persistence.Migrations
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
-
-                    b.Property<string>("UsernameSurname")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -347,19 +341,15 @@ namespace HospitalApi.Persistence.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("AppointmentUser", b =>
+            modelBuilder.Entity("HospitalApi.Domain.Entities.Appointment", b =>
                 {
-                    b.HasOne("HospitalApi.Domain.Entities.Appointment", null)
-                        .WithMany()
-                        .HasForeignKey("AppointmentsId")
+                    b.HasOne("HospitalApi.Domain.Entities.User", "User")
+                        .WithMany("Appointments")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("HospitalApi.Domain.Entities.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("HospitalApi.Domain.Entities.DoctorCheck", b =>
@@ -427,6 +417,11 @@ namespace HospitalApi.Persistence.Migrations
             modelBuilder.Entity("HospitalApi.Domain.Entities.Appointment", b =>
                 {
                     b.Navigation("DoctorChecks");
+                });
+
+            modelBuilder.Entity("HospitalApi.Domain.Entities.User", b =>
+                {
+                    b.Navigation("Appointments");
                 });
 #pragma warning restore 612, 618
         }
